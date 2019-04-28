@@ -30,10 +30,16 @@ namespace TaskTimeTracker.Entities
             .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<Todo>()
-            .HasOne<User>(u => u.User)
-            .WithMany(t => t.ToDos)
+            .HasOne<User>(todo => todo.User)
+            .WithMany(user => user.ToDos)
             .HasForeignKey(u => u.UserID)
             .IsRequired(false);
+
+            modelBuilder.Entity<Todo>()
+                .HasOne<Project>(todo => todo.Project)
+                .WithMany(project => project.Todos)
+                .HasForeignKey(project => project.ProjectID)
+                .IsRequired(false);
 
             modelBuilder.Entity<ProjectUser>()
                 .HasKey(pu => new { pu.UserId, pu.ProjectId });

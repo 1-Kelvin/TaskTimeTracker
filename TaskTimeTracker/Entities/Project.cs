@@ -14,5 +14,6 @@ namespace TaskTimeTracker.Entities
         public int? UserID { get; set; }
         public bool Finished { get; set; }
         public List<ProjectUser> ProjectUsers {get;set;}
+        public List<Todo> Todos { get; set; }
     }
 }
