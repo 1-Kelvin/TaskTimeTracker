@@ -15,9 +15,30 @@ namespace TaskTimeTracker.Services
             _context = context;
         }
 
-        public Task<Todo> AddToDo(Todo toDo, User user)
+        // TODO
+        public async Task<bool> AddToDo(Todo toDo, User user)
         {
+            return await Task.Run<bool>(
+                () =>
+                {
+                    Todo td = _context.ToDos.FirstOrDefault(t => t.Id == toDo.Id);
+                    User usr = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+                    if (td != null && usr != null)
+                    {
+                        td.User = usr;
+                        td.UserID = usr.Id;
+                        usr.ToDos.Add(td);
+
+                        _context.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                });
+           
+
             throw new NotImplementedException();
+        
         }
 
         public async Task<IEnumerable<Todo>> GetAll()
