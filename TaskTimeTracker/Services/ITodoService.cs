@@ -10,7 +10,6 @@ namespace TaskTimeTracker.Services
     {
         Task<IEnumerable<Todo>> GetAll();
         Task<Todo> GetToDo(int id);
-        Task<bool> AddToDo(Todo toDo, User user);
         Task<bool> SaveToDoData(Todo toDo);
     }
 }

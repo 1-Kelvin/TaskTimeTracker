@@ -21,6 +21,8 @@ namespace TaskTimeTracker.Controllers
         }
 
         // GET: api/Todoes
+        // ActionResult = HttpResponse with Header, etc
+        // OK, Bad Request, Not Found, ...
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetToDos()
         {

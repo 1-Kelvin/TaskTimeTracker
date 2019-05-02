@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskTimeTracker.Entities;
 
 namespace TaskTimeTracker.Services
 {
     interface IProjectService
     {
-        //Task<IEnumerable<Project>> getAll
+        Task<IEnumerable<Project>> GetAll();
+        Task<Project> GetProject(long id);
+        Task<Project> SaveProjectData(Project project);
     }
 }
