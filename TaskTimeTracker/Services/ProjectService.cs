@@ -36,9 +36,23 @@ namespace TaskTimeTracker.Services
                 );
         }
 
-        public Task<Project> SaveProjectData(Project project)
+        public async Task<bool> SaveProjectData(Project project)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return await Task.Run<bool>(
+                () =>
+                {
+                    Project proj = _context.Projects.FirstOrDefault(p => p.Id == project.Id);
+                    if (proj == null)
+                        return false;
+
+                    proj.Name = project.Name;
+                    proj.Description = project.Description;
+                    proj.ProjectUsers = project.ProjectUsers;
+                    proj.Todos = project.Todos;
+                    proj.Finished = project.Finished;
+                    return true;
+                });
         }
     }
 }

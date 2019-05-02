@@ -10,6 +10,6 @@ namespace TaskTimeTracker.Services
     {
         Task<IEnumerable<Project>> GetAll();
         Task<Project> GetProject(long id);
-        Task<Project> SaveProjectData(Project project);
+        Task<bool> SaveProjectData(Project project);
     }
 }
