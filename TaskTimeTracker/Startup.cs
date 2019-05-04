@@ -31,6 +31,9 @@ namespace TaskTimeTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO
+            // services.AddAuthentication("BasicAuthentication").
+            //AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddCors();
             services.AddScoped<IUserService, UserService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -38,10 +41,10 @@ namespace TaskTimeTracker
             services.AddSwaggerGen(context =>
             {
                 context.SwaggerDoc("v1", new Info() { Title = "User Api", Version = "v1" });
+                context.OperationFilter<BasicAuthFilter>();
             });
             services.AddAuthentication("BasicAuthentication").
                 AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-            //services.AddHostedService<RabbitMQService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

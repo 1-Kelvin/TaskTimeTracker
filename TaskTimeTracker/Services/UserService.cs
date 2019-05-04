@@ -33,20 +33,27 @@ namespace TaskTimeTracker.Services
         public async Task<IEnumerable<User>> GetAll()
         {
             return await Task.Run<IEnumerable<User>>(
-                () => _context.Users.Select(u => new User
+                () => _context.Users
+                .Include(u => u.ToDos)
+                .Include(u => u.ProjectUsers)
+                .Select(u => new User
                 {
                     Id = u.Id,
                     Email = u.Email,
                     Firstname = u.Firstname,
                     Lastname = u.Lastname,
-                    Created = u.Created
+                    Created = u.Created,
+                    ProjectUsers = u.ProjectUsers,
+                    ToDos = u.ToDos
                 }));
         }
 
         public async Task<User> GetUser(int id)
         {
             return await Task.Run<User>(
-                () => _context.Users.Include(u => u.ToDos)
+                () => _context.Users
+                .Include(u => u.ToDos)
+                .Include(u => u.ProjectUsers)
                 .FirstOrDefaultAsync(u => u.Id == id));
         }
 
