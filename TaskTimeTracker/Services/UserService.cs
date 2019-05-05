@@ -18,6 +18,7 @@ namespace TaskTimeTracker.Services
             _context = context;
         }
 
+
         public async Task<User> Authenticate(string username, string password)
         {
             var user = await Task.Run(
@@ -29,6 +30,7 @@ namespace TaskTimeTracker.Services
             // user gets returned if he exists - else null
             return user;
         }
+
 
         public async Task<IEnumerable<User>> GetAll()
         {
@@ -47,6 +49,7 @@ namespace TaskTimeTracker.Services
                     ToDos = u.ToDos
                 }));
         }
+
 
         public async Task<User> GetUser(int id)
         {
