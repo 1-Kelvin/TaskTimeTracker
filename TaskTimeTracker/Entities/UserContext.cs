@@ -12,7 +12,7 @@ namespace TaskTimeTracker.Entities
     {
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Todo> ToDos { get; set; }
+        public DbSet<Todo> Todos { get; set; }
 
         public DbSet<Project> Projects { get; set; }
 

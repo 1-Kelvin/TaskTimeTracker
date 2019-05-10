@@ -16,6 +16,7 @@ using TaskTimeTracker.IServices;
 using TaskTimeTracker.Services;
 using Microsoft.AspNetCore.Authentication;
 using TaskTimeTracker.Helpers;
+using AutoMapper;
 
 namespace TaskTimeTracker
 {
@@ -35,6 +36,7 @@ namespace TaskTimeTracker
             // services.AddAuthentication("BasicAuthentication").
             //AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddCors();
+            services.AddAutoMapper();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

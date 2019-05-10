@@ -14,6 +14,7 @@ namespace TaskTimeTracker.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime? ToFinish { get; set; }
+        public int? WorkingHours { get; set; }
    
         [DefaultValue(false)]
         public bool Finished { get; set; }

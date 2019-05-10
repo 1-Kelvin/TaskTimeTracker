@@ -6,7 +6,7 @@ using TaskTimeTracker.Entities;
 
 namespace TaskTimeTracker.Services
 {
-    interface IProjectService
+    public interface IProjectService
     {
         Task<IEnumerable<Project>> GetAll();
         Task<Project> GetProject(long id);

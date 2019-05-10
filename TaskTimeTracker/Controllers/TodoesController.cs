@@ -13,40 +13,35 @@ namespace TaskTimeTracker.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TodoesController : ControllerBase
+    public class TodosController : ControllerBase
     {
         private readonly UserContext _context;
         private ITodoService _service;
-        private IMapper autoMapper;
 
-        public TodoesController(ITodoService service)
+        public TodosController(ITodoService service)
         {
             _service = service;
-           // var config = new MapperConfiguration(cfg => cfg.CreateMap<CreateTodoDTO, Todo>());
-           // autoMapper = config.CreateMapper();
         }
 
-        // GET: api/Todoes
-        // ActionResult = HttpResponse with Header, etc
-        // OK, Bad Request, Not Found, ...
+     
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Todo>>> GetToDos()
+        public async Task<IEnumerable<Todo>> GetToDos()
         {
-            return await _context.ToDos.ToListAsync();
+            return await _service.GetAll();
         }
 
         // GET: api/Todoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Todo>> GetTodo(int id)
         {
-            var todo = await _context.ToDos.FindAsync(id);
+            //var todo = await _context.ToDos.FindAsync(id);
+            var todo = await _service.GetTodo(id);
 
             if (todo == null)
             {
                 return NotFound();
             }
-
-            return todo;
+            return Ok(todo);
         }
 
         // PUT: api/Todoes/5
@@ -83,7 +78,7 @@ namespace TaskTimeTracker.Controllers
         [HttpPost]
         public async Task<ActionResult<Todo>> PostTodo(Todo todo)
         {
-            _context.ToDos.Add(todo);
+            _context.Todos.Add(todo);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);
@@ -93,13 +88,13 @@ namespace TaskTimeTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Todo>> DeleteTodo(int id)
         {
-            var todo = await _context.ToDos.FindAsync(id);
+            var todo = await _context.Todos.FindAsync(id);
             if (todo == null)
             {
                 return NotFound();
             }
 
-            _context.ToDos.Remove(todo);
+            _context.Todos.Remove(todo);
             await _context.SaveChangesAsync();
 
             return todo;
@@ -107,7 +102,7 @@ namespace TaskTimeTracker.Controllers
 
         private bool TodoExists(int id)
         {
-            return _context.ToDos.Any(e => e.Id == id);
+            return _context.Todos.Any(e => e.Id == id);
         }
     }
 }
