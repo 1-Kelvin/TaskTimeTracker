@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,13 @@ namespace TaskTimeTracker.Services
 {
     public class TodoService : ITodoService
     {
-        readonly UserContext _context = null;
-        private IMapper automapper;
+        readonly UserContext _context;
+        private IMapper _mapper;
 
-        public TodoService(UserContext context)
+        public TodoService(UserContext context, IMapper mapper)
         {
             _context = context;
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Todo, CreateTodoDTO>());
-            automapper = config.CreateMapper();
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Todo>> GetAll()
@@ -56,13 +56,50 @@ namespace TaskTimeTracker.Services
                     return true;
               }
                 return false;
-          });
+            });
         }
 
-        public Task<bool> CreateTodo(CreateTodoDTO createTodoDTO)
+        public async Task<Todo> CreateTodo(CreateTodoDTO createTodoDTO)
         {
-            throw new NotImplementedException();
+            return await Task.Run<Todo>(() =>
+            {
+               Todo todo = _mapper.Map<Todo>(createTodoDTO);
+               var result = _context.Todos.Add(todo);
+               _context.SaveChanges();
+               return todo;
+            });
         }
 
+        public async Task<bool> DeleteTodo(int id)
+        {
+            return await Task.Run<bool>(() =>
+            {
+               Todo todo = _context.Todos.Find(id);
+               if (todo == null)
+               {
+                   return false;
+               }
+               _context.Todos.Remove(todo);
+               _context.SaveChanges();
+               return true;
+            });
+        }
+
+        public async Task<IEnumerable<TodoViewDTO>> GetAllByUserId(int id)
+        {
+            return await Task.Run<IEnumerable<TodoViewDTO>>(
+                () => _context.Todos
+                .Where(t => t.UserID == id)
+                .Select(todo => new TodoViewDTO
+                {
+                    ProjectID = todo.ProjectID,
+                    Title = todo.Title,
+                    ToFinish = todo.ToFinish,
+                    WorkingHours = todo.WorkingHours,
+                    Description = todo.Description,
+                    Finished = todo.Finished
+                }
+                ));
+        }
     }
 }

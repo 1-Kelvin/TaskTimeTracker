@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskTimeTracker.DTOs;
 using TaskTimeTracker.Entities;
 using TaskTimeTracker.IServices;
+using TaskTimeTracker.Services;
 
 namespace TaskTimeTracker.Controllers
 {
@@ -16,18 +18,20 @@ namespace TaskTimeTracker.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _service;
+        private readonly IUserService _userService;
+        private readonly ITodoService _todoService;
 
-        public UsersController(IUserService service)
+        public UsersController(IUserService service, ITodoService todoService)
         {
-            _service = service;
+            _userService = service;
+            _todoService = todoService;
         }
 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            var user = await _service.GetAll();
+            var user = await _userService.GetAll();
             return Ok(user);
         }
 
@@ -35,7 +39,7 @@ namespace TaskTimeTracker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _service.GetUser(id);
+            var user = await _userService.GetUser(id);
 
             if (user == null)
             {
@@ -57,7 +61,7 @@ namespace TaskTimeTracker.Controllers
             if (user.Email != User.Identity.Name) // use the created identity
                 return Forbid();
 
-            if (await _service.SaveUserData(user))
+            if (await _userService.SaveUserData(user))
                 return NoContent();
             else
                 return NotFound();
@@ -71,7 +75,7 @@ namespace TaskTimeTracker.Controllers
             if (user == null)
                 return BadRequest();
 
-            var u = await _service.RegisterUser(user);
+            var u = await _userService.RegisterUser(user);
             if (u != null)
                 return CreatedAtAction("GetUser", new { id = u.Id }, u);
             else
@@ -92,11 +96,24 @@ namespace TaskTimeTracker.Controllers
             if (user == null)
                 return BadRequest();
 
-            var u = await _service.RegisterUser(user);
+            var u = await _userService.RegisterUser(user);
             if (u != null)
                 return CreatedAtAction("GetUser", new { id = u.Id }, u);
             else
                 return Conflict();
+        }
+
+       
+
+        [HttpGet("{id}/assignedTodos")]
+        public async Task<ActionResult<IEnumerable<TodoViewDTO>>> ListAssignedTodos(int id) 
+        {
+            IEnumerable<TodoViewDTO> todos = await _todoService.GetAllByUserId(id);
+            if (todos == null)
+            {
+                return BadRequest();
+            }
+            return Ok(todos);
         }
     }
 }
