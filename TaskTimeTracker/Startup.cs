@@ -36,6 +36,7 @@ namespace TaskTimeTracker
             //AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddCors();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITodoService, TodoService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:tasktime"]));
             services.AddSwaggerGen(context =>

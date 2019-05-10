@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTimeTracker.Entities;
+using TaskTimeTracker.Services;
 
 namespace TaskTimeTracker.Controllers
 {
@@ -14,10 +16,14 @@ namespace TaskTimeTracker.Controllers
     public class TodoesController : ControllerBase
     {
         private readonly UserContext _context;
+        private ITodoService _service;
+        private IMapper autoMapper;
 
-        public TodoesController(UserContext context)
+        public TodoesController(ITodoService service)
         {
-            _context = context;
+            _service = service;
+           // var config = new MapperConfiguration(cfg => cfg.CreateMap<CreateTodoDTO, Todo>());
+           // autoMapper = config.CreateMapper();
         }
 
         // GET: api/Todoes
