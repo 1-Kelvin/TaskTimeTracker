@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTimeTracker.Entities;
+using TaskTimeTracker.Services;
 
 namespace TaskTimeTracker.Controllers
 {
@@ -14,10 +15,12 @@ namespace TaskTimeTracker.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly UserContext _context;
+        private IProjectService _service;
 
-        public ProjectsController(UserContext context)
+        public ProjectsController(UserContext context, IProjectService service)
         {
             _context = context;
+            _service = service;
         }
 
         // GET: api/Projects

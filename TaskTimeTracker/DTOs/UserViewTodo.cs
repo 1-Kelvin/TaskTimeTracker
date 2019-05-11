@@ -11,6 +11,7 @@ namespace TaskTimeTracker.DTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime? ToFinish { get; set; }
+        public int? EstimatedHours { get; set; }
         public int? WorkingHours { get; set; }
         public bool Finished { get; set; }
     }

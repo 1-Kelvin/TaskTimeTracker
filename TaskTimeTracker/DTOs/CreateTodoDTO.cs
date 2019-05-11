@@ -12,6 +12,7 @@ namespace TaskTimeTracker.DTOs
         public string Description { get; set; }
         public DateTime? ToFinish { get; set; }
         public int? WorkingHours { get; set; }
+        public int? EstimatedDuration { get; set; }
         [DefaultValue(false)] // is this ok in dto?
         public bool Finished { get; set; }
         public int? UserID { get; set; }

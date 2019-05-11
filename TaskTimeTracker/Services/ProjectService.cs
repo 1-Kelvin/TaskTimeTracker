@@ -11,19 +11,14 @@ namespace TaskTimeTracker.Services
     {
         readonly UserContext _context = null;
 
+        public ProjectService(UserContext context)
+        {
+            _context = context;
+        }
+
         public async Task<IEnumerable<Project>> GetAll()
         {
-            return await Task.Run<IEnumerable<Project>>(
-                () => _context.Projects.Select(project => new Project
-                {
-                    Id = project.Id,
-                    Name = project.Name,
-                    Description = project.Description,
-                    UserID = project.UserID,
-                    Finished = project.Finished,
-                    ProjectUsers = project.ProjectUsers,
-                    Todos = project.Todos
-                }));
+            return await _context.Projects.ToListAsync();
         }
 
         public async Task<Project> GetProject(long id)
