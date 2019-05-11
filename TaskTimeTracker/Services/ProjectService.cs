@@ -27,7 +27,7 @@ namespace TaskTimeTracker.Services
 
         public async Task<Project> GetProject(int id)
         {
-            return await Task.Run<Project>(
+            return await Task.Run(
                 () => _context.Projects
                 .Include(pr => pr.Todos)
                 .Include(pr => pr.ProjectUsers)

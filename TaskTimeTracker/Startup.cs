@@ -39,6 +39,7 @@ namespace TaskTimeTracker
             services.AddAutoMapper();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:tasktime"]));
             services.AddSwaggerGen(context =>
