@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TaskTimeTracker.DTOs
 {
-    public class TodoViewDTO
+    public class ViewTodoDTO
     {
         public int? ProjectID { get; set; }
         public string Title { get; set; }

@@ -53,11 +53,11 @@ namespace TaskTimeTracker.Controllers
                 return BadRequest();
             }
 
-            bool saved = await _service.SaveTodoData(todo);
+            Todo td = await _service.SaveTodoData(todo);
 
-            if (saved)
+            if (td != null)
             {
-                return NoContent();
+                return Ok(td);
             }
 
             return NotFound();

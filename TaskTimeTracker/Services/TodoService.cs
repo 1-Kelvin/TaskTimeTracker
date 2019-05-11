@@ -39,9 +39,9 @@ namespace TaskTimeTracker.Services
                 () => _context.Todos.FirstOrDefault(t => t.Id == id));
         }
 
-        public async Task<bool> SaveTodoData(Todo todo)
+        public async Task<Todo> SaveTodoData(Todo todo)
         {
-            return await Task.Run<bool>( () =>
+            return await Task.Run<Todo>( () =>
             {
               Todo td = _context.Todos.FirstOrDefault(t => t.Id == todo.Id);
               if (td != null)
@@ -52,10 +52,12 @@ namespace TaskTimeTracker.Services
                     td.Finished = todo.Finished;
                     td.UserID = todo.UserID;
                     td.WorkingHours = todo.WorkingHours;
+                    td.EstimatedHours = todo.EstimatedHours;
+                    td.ProjectID = todo.ProjectID;
                     _context.SaveChanges();
-                    return true;
+                    return td;
               }
-                return false;
+                return null;
             });
         }
 
@@ -85,12 +87,12 @@ namespace TaskTimeTracker.Services
             });
         }
 
-        public async Task<IEnumerable<TodoViewDTO>> GetAllByUserId(int id)
+        public async Task<IEnumerable<ViewTodoDTO>> GetAllByUserId(int id)
         {
-            return await Task.Run<IEnumerable<TodoViewDTO>>(
+            return await Task.Run<IEnumerable<ViewTodoDTO>>(
                 () => _context.Todos
                 .Where(t => t.UserID == id)
-                .Select(todo => new TodoViewDTO
+                .Select(todo => new ViewTodoDTO
                 {
                     ProjectID = todo.ProjectID,
                     Title = todo.Title,

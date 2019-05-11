@@ -106,9 +106,9 @@ namespace TaskTimeTracker.Controllers
        
 
         [HttpGet("{id}/assignedTodos")]
-        public async Task<ActionResult<IEnumerable<TodoViewDTO>>> ListAssignedTodos(int id) 
+        public async Task<ActionResult<IEnumerable<ViewTodoDTO>>> ListAssignedTodos(int id) 
         {
-            IEnumerable<TodoViewDTO> todos = await _todoService.GetAllByUserId(id);
+            IEnumerable<ViewTodoDTO> todos = await _todoService.GetAllByUserId(id);
             if (todos == null)
             {
                 return BadRequest();

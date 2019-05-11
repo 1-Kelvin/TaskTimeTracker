@@ -9,7 +9,7 @@ namespace TaskTimeTracker.Services
     public interface IProjectService
     {
         Task<IEnumerable<Project>> GetAll();
-        Task<Project> GetProject(long id);
-        Task<bool> SaveProjectData(Project project);
+        Task<Project> GetProject(int id);
+        Task<Project> SaveProjectData(int id, Project project);
     }
 }

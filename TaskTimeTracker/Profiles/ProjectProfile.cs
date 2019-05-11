@@ -8,12 +8,12 @@ using TaskTimeTracker.Entities;
 
 namespace TaskTimeTracker.Profiles
 {
-    public class TodoProfile : Profile
+    public class ProjectProfile : Profile
     {
-        public TodoProfile()
+        public ProjectProfile ()
         {
-            CreateMap<Todo, CreateTodoDTO>();
-            CreateMap<Todo, ViewTodoDTO>();
+            CreateMap<Project, CreateProjectDTO>();
+            CreateMap<Project, ViewProjectDTO>();
         }
     }
 }

@@ -27,51 +27,28 @@ namespace TaskTimeTracker.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            var list = await _service.GetAll();
+            return Ok(list);
         }
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-
+            var project = _service.GetProject(id);
             if (project == null)
-            {
-                return NotFound();
-            }
-
-            return project;
+                return BadRequest();
+            return Ok(project);
         }
 
         // PUT: api/Projects/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProject(int id, Project project)
         {
-            if (id != project.Id)
-            {
+            var proj = await _service.SaveProjectData(id, project);
+            if (proj == null)
                 return BadRequest();
-            }
-
-            _context.Entry(project).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(proj);
         }
 
         // POST: api/Projects
