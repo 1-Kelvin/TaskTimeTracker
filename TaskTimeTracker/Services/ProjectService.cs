@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace TaskTimeTracker.Services
 {
     public class ProjectService : IProjectService
     {
-        readonly UserContext _context = null;
+        private readonly UserContext _context;
+        private IMapper _mapper;
 
-        public ProjectService(UserContext context)
+        public ProjectService(UserContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Project>> GetAll()
@@ -51,9 +54,31 @@ namespace TaskTimeTracker.Services
                 });
         }
 
-        public async Task<Project> CreateProject(CreateProjectDTO createProjectDTO)
+        public async Task<ViewProjectDTO> CreateProject(CreateProjectDTO createProjectDTO)
         {
-            return await Task.Run<Project>
+            return await Task.Run( () =>
+           {
+               Project project = _mapper.Map<Project>(createProjectDTO);
+               _context.Projects.Add(project);
+               _context.SaveChanges();
+               
+               return _mapper.Map<ViewProjectDTO>(project);
+           });
         }
+
+        public async Task<bool> DeleteProject(int id)
+        {
+            return await Task.Run<bool>(() =>
+           {
+               var project = _context.Projects.Find(id);
+               if (project == null)
+                   return false;
+
+               _context.Projects.Remove(project);
+               _context.SaveChanges();
+               return true;
+           });
+        }
+
     }
 }

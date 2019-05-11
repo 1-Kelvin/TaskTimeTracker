@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskTimeTracker.DTOs;
 using TaskTimeTracker.Entities;
 using TaskTimeTracker.Services;
 
@@ -14,12 +15,10 @@ namespace TaskTimeTracker.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly UserContext _context;
         private IProjectService _service;
 
         public ProjectsController(UserContext context, IProjectService service)
         {
-            _context = context;
             _service = service;
         }
 
@@ -53,11 +52,9 @@ namespace TaskTimeTracker.Controllers
 
         // POST: api/Projects
         [HttpPost]
-        public async Task<ActionResult<Project>> PostProject(Project project)
+        public async Task<ActionResult<ViewProjectDTO>> PostProject(CreateProjectDTO projectDTO)
         {
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
-
+            ViewProjectDTO project = await _service.CreateProject(projectDTO);
             return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
@@ -65,21 +62,13 @@ namespace TaskTimeTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Project>> DeleteProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
+            bool deleted = await _service.DeleteProject(id);
+            if (!deleted)
             {
                 return NotFound();
             }
 
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-
-            return project;
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
+            return Ok();
         }
     }
 }
