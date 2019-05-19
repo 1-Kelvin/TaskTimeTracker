@@ -11,6 +11,8 @@ namespace TaskTimeTracker.Helpers
     public class DataGenerator
     {
         private ModelBuilder _modelBuilder;
+        private IList<User> _users;
+        private IList<Project> _projects;
 
         public DataGenerator (ModelBuilder modelBuilder)
         {
@@ -36,8 +38,10 @@ namespace TaskTimeTracker.Helpers
                     .With(u => u.Email = Faker.Internet.Email())
                     .With(u => u.Active = true)
                     .With(u => u.Level = Faker.RandomNumber.Next(1, 6))
-                    .With(u => u.Created = DateTime.Now);
+                    .With(u => u.Created = DateTime.Now)
+                .Build();
 
+            _users = users;
             _modelBuilder.Entity<User>().HasData(users);
         }
 
@@ -45,10 +49,13 @@ namespace TaskTimeTracker.Helpers
         {
             var projects = Builder<Project>.CreateListOfSize(5)
                 .All()
-                .With(p => p.Name = Faker.Internet.DomainName())
-                .With(p => p.Description = Faker.Lorem.Paragraph())
-                .With(p => p.Finished = false);
+                    .With(p => p.Name = Faker.Internet.DomainName())
+                    .With(p => p.Description = Faker.Lorem.Paragraph())
+                    .With(p => p.Finished = false)
+                    .With(p => p.UserID = null)
+                .Build();
 
+            _projects = projects;
             _modelBuilder.Entity<Project>().HasData(projects);
         }
 
@@ -57,10 +64,17 @@ namespace TaskTimeTracker.Helpers
             var todos = Builder<Todo>.CreateListOfSize(30)
                 .All()
                     .With(t => t.Title = Faker.Internet.DomainWord())
+                    .With(t => t.UserID = null)
+                    .With(t => t.ProjectID = null)
                     .With(t => t.WorkingHours = 0)
                     .With(t => t.EstimatedHours = Faker.RandomNumber.Next(1, 20))
                     .With(t => t.Finished = false)
-                    .With(t => t.ToFinish = DateTime.Now.AddDays(30));
+                    .With(t => t.ToFinish = DateTime.Now.AddDays(30))
+                .Random(10)
+                    .With(t => t.UserID = Pick<User>.RandomItemFrom(_users).Id)
+                .Random(25)
+                    .With(t => t.ProjectID = Pick<Project>.RandomItemFrom(_projects).Id)
+                .Build();
 
             _modelBuilder.Entity<Todo>().HasData(todos);
         }

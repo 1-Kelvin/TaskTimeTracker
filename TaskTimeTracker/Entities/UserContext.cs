@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskTimeTracker.Helpers;
 
 namespace TaskTimeTracker.Entities
 {
@@ -54,7 +55,8 @@ namespace TaskTimeTracker.Entities
                 .WithMany(project => project.ProjectUsers)
                 .HasForeignKey(pu => pu.ProjectId);
 
-            // create TestData here
+            DataGenerator generator = new DataGenerator(modelBuilder);
+            generator.GenerateTestData();
 
 
             // this will singularize all table names

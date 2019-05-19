@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Messaging\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

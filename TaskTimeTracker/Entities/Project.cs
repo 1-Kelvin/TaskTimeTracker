@@ -11,6 +11,7 @@ namespace TaskTimeTracker.Entities
         [Required, MaxLength(200)]
         public string Name { get; set; }
         public string Description { get; set; }
+        // project head
         public int? UserID { get; set; }
         public bool Finished { get; set; }
         public List<ProjectUser> ProjectUsers {get;set;}
