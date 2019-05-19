@@ -8,6 +8,9 @@ namespace TaskTimeTracker.DTOs
 {
     public class UserDTO
     {
+        [Required]
+        public int Id { get; set; }
+
         [Required, MaxLength(50)]
         public string Firstname { get; set; }
 

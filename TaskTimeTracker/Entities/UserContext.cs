@@ -32,7 +32,7 @@ namespace TaskTimeTracker.Entities
 
             modelBuilder.Entity<Todo>()
             .HasOne<User>(todo => todo.User)
-            .WithMany(user => user.ToDos)
+            .WithMany(user => user.Todos)
             .HasForeignKey(u => u.UserID)
             .IsRequired(false);
 

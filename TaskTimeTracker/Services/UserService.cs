@@ -36,7 +36,7 @@ namespace TaskTimeTracker.Services
         {
             return await Task.Run<IEnumerable<User>>(
                 () => _context.Users
-                .Include(u => u.ToDos)
+                .Include(u => u.Todos)
                 .Include(u => u.ProjectUsers)
                 .Select(u => new User
                 {
@@ -46,7 +46,7 @@ namespace TaskTimeTracker.Services
                     Lastname = u.Lastname,
                     Created = u.Created,
                     ProjectUsers = u.ProjectUsers,
-                    ToDos = u.ToDos
+                    Todos = u.Todos
                 }));
         }
 
@@ -55,7 +55,7 @@ namespace TaskTimeTracker.Services
         {
             return await Task.Run<User>(
                 () => _context.Users
-                .Include(u => u.ToDos)
+                .Include(u => u.Todos)
                 .Include(u => u.ProjectUsers)
                 .FirstOrDefaultAsync(u => u.Id == id));
         }

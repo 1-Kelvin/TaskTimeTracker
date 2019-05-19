@@ -61,11 +61,11 @@ namespace TaskTimeTracker.Services
             });
         }
 
-        public async Task<Todo> CreateTodo(TodoDTO createTodoDTO)
+        public async Task<Todo> CreateTodo(TodoDTO todoDTO)
         {
             return await Task.Run<Todo>(() =>
             {
-               Todo todo = _mapper.Map<Todo>(createTodoDTO);
+               Todo todo = _mapper.Map<Todo>(todoDTO);
                var result = _context.Todos.Add(todo);
                _context.SaveChanges();
                return todo;

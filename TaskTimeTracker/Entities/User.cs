@@ -30,7 +30,7 @@ namespace TaskTimeTracker.Entities
         public bool Active { get; set; }
 
 
-        public virtual ICollection<Todo> ToDos { get; set; }
+        public virtual ICollection<Todo> Todos { get; set; }
 
 
         [Range (1, 5)]
