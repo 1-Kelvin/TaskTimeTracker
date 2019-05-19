@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TaskTimeTracker.Entities;
 
 namespace TaskTimeTracker.Helpers
@@ -41,6 +39,18 @@ namespace TaskTimeTracker.Helpers
                     .With(u => u.Created = DateTime.Now)
                 .Build();
 
+            users.Add(new User
+            {
+                Id = 777,
+                Firstname = "Kelvin",
+                Lastname = "Sparr",
+                Password = "password",
+                Email = "k@s.eu",
+                Level = 0,
+                Created = DateTime.Now,
+                Active = true
+            });
+
             _users = users;
             _modelBuilder.Entity<User>().HasData(users);
         }
@@ -63,7 +73,6 @@ namespace TaskTimeTracker.Helpers
         {
             var todos = Builder<Todo>.CreateListOfSize(30)
                 .All()
-                    .With(t => t.Title = Faker.Internet.DomainWord())
                     .With(t => t.UserID = null)
                     .With(t => t.ProjectID = null)
                     .With(t => t.WorkingHours = 0)
@@ -72,7 +81,7 @@ namespace TaskTimeTracker.Helpers
                     .With(t => t.ToFinish = DateTime.Now.AddDays(30))
                 .Random(10)
                     .With(t => t.UserID = Pick<User>.RandomItemFrom(_users).Id)
-                .Random(25)
+                .Random(15)
                     .With(t => t.ProjectID = Pick<Project>.RandomItemFrom(_projects).Id)
                 .Build();
 
