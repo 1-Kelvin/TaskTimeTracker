@@ -12,7 +12,7 @@ namespace TaskTimeTracker.Profiles
     {
         public TodoProfile()
         {
-            CreateMap<Todo, CreateTodoDTO>();
+            CreateMap<Todo, TodoDTO>();
             CreateMap<Todo, ViewTodoDTO>();
         }
     }

@@ -54,7 +54,7 @@ namespace TaskTimeTracker.Services
                 });
         }
 
-        public async Task<ViewProjectDTO> CreateProject(CreateProjectDTO createProjectDTO)
+        public async Task<ViewProjectDTO> CreateProject(ProjectDTO createProjectDTO)
         {
             return await Task.Run( () =>
            {

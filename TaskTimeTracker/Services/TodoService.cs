@@ -61,7 +61,7 @@ namespace TaskTimeTracker.Services
             });
         }
 
-        public async Task<Todo> CreateTodo(CreateTodoDTO createTodoDTO)
+        public async Task<Todo> CreateTodo(TodoDTO createTodoDTO)
         {
             return await Task.Run<Todo>(() =>
             {

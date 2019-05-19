@@ -12,7 +12,7 @@ namespace TaskTimeTracker.Services
         Task<IEnumerable<Project>> GetAll();
         Task<Project> GetProject(int id);
         Task<Project> SaveProjectData(int id, Project project);
-        Task<ViewProjectDTO> CreateProject(CreateProjectDTO createProjectDTO);
+        Task<ViewProjectDTO> CreateProject(ProjectDTO createProjectDTO);
         Task<bool> DeleteProject(int id);
     }
 }

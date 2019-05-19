@@ -65,7 +65,7 @@ namespace TaskTimeTracker.Controllers
 
         // POST: api/Todos
         [HttpPost]
-        public async Task<ActionResult<Todo>> PostTodo(CreateTodoDTO createTodoDTO)
+        public async Task<ActionResult<Todo>> PostTodo(TodoDTO createTodoDTO)
         {
             Todo todo = await _service.CreateTodo(createTodoDTO);
             return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);

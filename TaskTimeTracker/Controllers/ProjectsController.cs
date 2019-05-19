@@ -52,7 +52,7 @@ namespace TaskTimeTracker.Controllers
 
         // POST: api/Projects
         [HttpPost]
-        public async Task<ActionResult<ViewProjectDTO>> PostProject(CreateProjectDTO projectDTO)
+        public async Task<ActionResult<ViewProjectDTO>> PostProject(ProjectDTO projectDTO)
         {
             ViewProjectDTO project = await _service.CreateProject(projectDTO);
             return CreatedAtAction("GetProject", new { id = project.Id }, project);
