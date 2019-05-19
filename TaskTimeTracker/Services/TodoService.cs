@@ -74,17 +74,14 @@ namespace TaskTimeTracker.Services
 
         public async Task<bool> DeleteTodo(int id)
         {
-            return await Task.Run<bool>(() =>
-            {
-               Todo todo = _context.Todos.Find(id);
-               if (todo == null)
-               {
-                   return false;
-               }
-               _context.Todos.Remove(todo);
-               _context.SaveChanges();
-               return true;
-            });
+            Todo todo = _context.Todos.Find(id);
+
+            if (todo == null)
+                return false;
+            
+            _context.Todos.Remove(todo);
+            await _context.SaveChangesAsync();
+            return true;    
         }
 
         public async Task<IEnumerable<ViewTodoDTO>> GetAllByUserId(int id)
@@ -94,7 +91,7 @@ namespace TaskTimeTracker.Services
                 .Where(t => t.UserID == id)
                 .Select(todo => new ViewTodoDTO
                 {
-                    ProjectID = todo.ProjectID,
+                    ProjectId = todo.ProjectID,
                     Title = todo.Title,
                     ToFinish = todo.ToFinish,
                     WorkingHours = todo.WorkingHours,
@@ -102,6 +99,20 @@ namespace TaskTimeTracker.Services
                     Finished = todo.Finished
                 }
                 ));
+        }
+
+        public async Task<ViewTodoDTO> AssignTodoToUser(int userId, int todoId)
+        {
+            var user = _context.Users.Find(userId);
+            var todo = _context.Todos.Find(todoId);
+
+            if (user == null || todo == null)
+                return null;
+
+            todo.UserID = userId;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<ViewTodoDTO>(todo);
         }
     }
 }

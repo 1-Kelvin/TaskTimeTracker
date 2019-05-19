@@ -62,39 +62,33 @@ namespace TaskTimeTracker.Services
 
         public async Task<User> RegisterUser(User user)
         {
-            return await Task.Run<User>(() =>
+            User usr = _context.Users.FirstOrDefault(u => u.Email == user.Email);
+            if (usr == null)
             {
-                User usr = _context.Users.FirstOrDefault(u => u.Email == user.Email);
-                if (usr == null)
-                {
-                    _context.Users.Add(user);
-                    _context.SaveChanges();
-                    return user;
-                }
-                else
-                    return null;
-            });
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            else
+                return null;
         }
 
 
         public async Task<bool> SaveUserData(User user)
         {
-            return await Task.Run<bool>( () =>
-            { 
-                User usr = _context.Users.FirstOrDefault(u => u.Id == user.Id);
-                if (usr != null)
-                {
-                    usr.Firstname = user.Firstname;
-                    usr.Lastname = user.Lastname;
-                    usr.Password = user.Password;
-                    usr.Email = user.Email;
-                    usr.Level = user.Level;
-                    _context.SaveChanges();
-                    return true;
-                }
-                else
-                    return false;
-            });
+            User usr = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (usr != null)
+            {
+                usr.Firstname = user.Firstname;
+                usr.Lastname = user.Lastname;
+                usr.Password = user.Password;
+                usr.Email = user.Email;
+                usr.Level = user.Level;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

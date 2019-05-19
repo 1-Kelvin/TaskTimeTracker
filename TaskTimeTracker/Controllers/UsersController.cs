@@ -102,7 +102,6 @@ namespace TaskTimeTracker.Controllers
             else
                 return Conflict();
         }
-
        
 
         [HttpGet("{id}/assignedTodos")]
@@ -114,6 +113,12 @@ namespace TaskTimeTracker.Controllers
                 return BadRequest();
             }
             return Ok(todos);
+        }
+
+        [HttpPut("{userId}/assignTodo/{todoId}")]
+        public async Task<ActionResult<IEnumerable<ViewTodoDTO>>> assignTodoToUser(int id, int todoId)
+        {
+            _todoService.            
         }
     }
 }
