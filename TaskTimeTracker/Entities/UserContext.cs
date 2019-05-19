@@ -54,6 +54,8 @@ namespace TaskTimeTracker.Entities
                 .WithMany(project => project.ProjectUsers)
                 .HasForeignKey(pu => pu.ProjectId);
 
+            // create TestData here
+
 
             // this will singularize all table names
             foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
