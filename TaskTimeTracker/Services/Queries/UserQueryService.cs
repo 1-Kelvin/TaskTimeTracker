@@ -26,8 +26,6 @@ namespace TaskTimeTracker.Services.Queries
         {
             return await Task.Run<IEnumerable<ViewUserDTO>>(
                 () => _context.Users
-                .Include(u => u.Todos)
-                .Include(u => u.ProjectUsers)
                 .Select(u => new ViewUserDTO
                 {
                     Email = u.Email,

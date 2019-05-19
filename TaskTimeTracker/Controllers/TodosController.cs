@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskTimeTracker.DTOs;
 using TaskTimeTracker.Entities;
 using TaskTimeTracker.Services;
+using TaskTimeTracker.Services.Queries;
 
 namespace TaskTimeTracker.Controllers
 {
@@ -17,17 +18,20 @@ namespace TaskTimeTracker.Controllers
     public class TodosController : ControllerBase
     {
         private ITodoService _service;
+        private ITodoQueryService _todoQueryService;
 
-        public TodosController(ITodoService service)
+        public TodosController(ITodoService service, ITodoQueryService queryService)
         {
             _service = service;
+            _todoQueryService = queryService;
         }
 
      
         [HttpGet]
-        public async Task<IEnumerable<Todo>> GetToDos()
+        public async Task<IEnumerable<ViewTodoDTO>> GetToDos()
         {
-            return await _service.GetAll();
+            //return await _service.GetAll();
+            return await _todoQueryService.GetAll();
         }
 
         // GET: api/Todos/5
