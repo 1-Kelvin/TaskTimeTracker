@@ -15,5 +15,6 @@ namespace TaskTimeTracker.Services
         Task<Todo> CreateTodo(TodoDTO createTodoDTO);
         Task<bool> DeleteTodo(int id);
         Task<IEnumerable<ViewTodoDTO>> GetAllByUserId(int id);
+        Task<ViewTodoDTO> AssignTodoToUser(int userId, int todoId);
     }
 }

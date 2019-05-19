@@ -116,9 +116,9 @@ namespace TaskTimeTracker.Controllers
         }
 
         [HttpPut("{userId}/assignTodo/{todoId}")]
-        public async Task<ActionResult<IEnumerable<ViewTodoDTO>>> assignTodoToUser(int id, int todoId)
+        public async Task<ActionResult<ViewTodoDTO>> assignTodoToUser(int id, int todoId)
         {
-            _todoService.            
+            return await _todoService.AssignTodoToUser(id, todoId);            
         }
     }
 }
