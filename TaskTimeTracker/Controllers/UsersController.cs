@@ -66,13 +66,10 @@ namespace TaskTimeTracker.Controllers
         public async Task<IActionResult> PutUser(int id, UserDTO user)
         {
 
-            if (id != user.Id)
-                return BadRequest();
-
             if (user.Email != User.Identity.Name) // use the created identity
                 return Forbid();
 
-            if (await _userCommandService.SaveUserData(user))
+            if (await _userCommandService.SaveUserData(id, user))
                 return NoContent();
             else
                 return NotFound();
@@ -118,7 +115,7 @@ namespace TaskTimeTracker.Controllers
         [HttpGet("{id}/assignedTodos")]
         public async Task<ActionResult<IEnumerable<ViewTodoDTO>>> ListAssignedTodos(int id) 
         {
-            IEnumerable<ViewTodoDTO> todos = await _todoQueryService.GetAllByUserId(id);
+            IEnumerable<ViewTodoDTO> todos = await _userQueryService.ListAssignedTodos(id);
             if (todos == null)
             {
                 return BadRequest();
@@ -126,7 +123,7 @@ namespace TaskTimeTracker.Controllers
             return Ok(todos);
         }
 
-        [HttpPut("{userId}/assignTodo/{todoId}")]
+        [HttpPut("{id}/assignTodo/{todoId}")]
         public async Task<ActionResult<ViewTodoDTO>> assignTodoToUser(int id, int todoId)
         {
             return await _todoCommandService.AssignTodoToUser(id, todoId);            

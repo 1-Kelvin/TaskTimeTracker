@@ -72,7 +72,16 @@ namespace TaskTimeTracker.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return NoContent();
+        }
+
+        [HttpPut("{id}/assignUser/{userId}")]
+        public async Task<ActionResult> assignUserToProject(int id, int userId)
+        {
+            var assigned = await _commandService.AssignUserToProject(id, userId);
+            if (assigned)
+                return NoContent();
+            return BadRequest();
         }
     }
 }

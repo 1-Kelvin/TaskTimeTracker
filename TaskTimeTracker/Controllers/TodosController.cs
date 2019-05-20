@@ -53,12 +53,8 @@ namespace TaskTimeTracker.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTodo(int id, TodoDTO todo)
         {
-            if (id != todo.Id)
-            {
-                return BadRequest();
-            }
-
-            var td = await _commandService.SaveTodoData(todo);
+           
+            var td = await _commandService.SaveTodoData(id, todo);
 
             if (td != null)
             {

@@ -14,6 +14,8 @@ namespace TaskTimeTracker.Profiles
         {
             CreateMap<User, UserDTO>();
             CreateMap<User, ViewUserDTO>();
+            CreateMap<ViewUserDTO, User>();
+            CreateMap<UserDTO, User>();
         }
     }
 }

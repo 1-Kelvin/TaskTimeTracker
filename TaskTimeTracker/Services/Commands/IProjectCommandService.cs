@@ -13,5 +13,6 @@ namespace TaskTimeTracker.Services.Commands
         Task<ViewProjectDTO> CreateProject(ProjectDTO createProjectDTO);
         Task<bool> DeleteProject(int id);
         Task<IEnumerable<ViewUserDTO>> ListAssignedUsers(int id);
+        Task<bool> AssignUserToProject(int projId, int userId);
     }
 }

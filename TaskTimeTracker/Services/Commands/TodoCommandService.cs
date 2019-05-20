@@ -19,9 +19,9 @@ namespace TaskTimeTracker.Services.Commands
             _mapper = mapper;
         }
 
-        public async Task<ViewTodoDTO> SaveTodoData(TodoDTO todo)
+        public async Task<ViewTodoDTO> SaveTodoData(int id, TodoDTO todo)
         {
-            Todo td = _context.Todos.FirstOrDefault(t => t.Id == todo.Id);
+            Todo td = _context.Todos.FirstOrDefault(t => t.Id == id);
             if (td != null)
             {
                 td.Title = todo.Title;
@@ -30,7 +30,6 @@ namespace TaskTimeTracker.Services.Commands
                 td.Finished = todo.Finished;
                 td.UserID = todo.UserID;
                 td.WorkingHours = todo.WorkingHours;
-                td.EstimatedHours = todo.EstimatedHours;
                 td.ProjectID = todo.ProjectID;
                 await _context.SaveChangesAsync();
                 return _mapper.Map<ViewTodoDTO>(td);
@@ -38,9 +37,9 @@ namespace TaskTimeTracker.Services.Commands
             return null;
         }
 
-        public async Task<ViewTodoDTO> CreateTodo(TodoDTO createTodoDTO)
+        public async Task<ViewTodoDTO> CreateTodo(TodoDTO todoDTO)
         {
-            Todo todo = _mapper.Map<Todo>(createTodoDTO);
+            Todo todo = _mapper.Map<Todo>(todoDTO);
             var result = _context.Todos.Add(todo);
             await _context.SaveChangesAsync();
             return _mapper.Map<ViewTodoDTO>(todo);

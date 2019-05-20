@@ -11,7 +11,6 @@ namespace TaskTimeTracker.Services.Commands
     {
         Task<ViewUserDTO> Authenticate(string username, string password);
         Task<ViewUserDTO> RegisterUser(UserDTO user);
-        Task<bool> SaveUserData(UserDTO user);
-        Task<IEnumerable<ViewTodoDTO>> ListAssignedTodos(int id);
+        Task<bool> SaveUserData(int id, UserDTO user);
     }
 }

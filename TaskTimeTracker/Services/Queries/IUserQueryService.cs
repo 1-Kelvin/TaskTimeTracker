@@ -10,5 +10,7 @@ namespace TaskTimeTracker.Services.Queries
     {
         Task<IEnumerable<ViewUserDTO>> GetAll();
         Task<ViewUserDTO> GetUser(int id);
+        Task<IEnumerable<ViewTodoDTO>> ListAssignedTodos(int id);
+
     }
 }

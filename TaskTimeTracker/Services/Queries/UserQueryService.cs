@@ -28,6 +28,7 @@ namespace TaskTimeTracker.Services.Queries
                 () => _context.Users
                 .Select(u => new ViewUserDTO
                 {
+                    Id = u.Id,
                     Email = u.Email,
                     Firstname = u.Firstname,
                     Lastname = u.Lastname,
@@ -45,6 +46,21 @@ namespace TaskTimeTracker.Services.Queries
                 .Include(u => u.ProjectUsers)
                 .FirstOrDefaultAsync(u => u.Id == id));
             return _mapper.Map<ViewUserDTO>(user);
+        }
+
+        public async Task<IEnumerable<ViewTodoDTO>> ListAssignedTodos(int id)
+        {
+            User usr = await _context.Users
+                .Include(p => p.Todos)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            ICollection<ViewTodoDTO> result = new List<ViewTodoDTO>();
+
+            foreach (Todo todo in usr.Todos)
+            {
+                result.Add(_mapper.Map<ViewTodoDTO>(todo));
+            }
+            return result;
         }
 
     }

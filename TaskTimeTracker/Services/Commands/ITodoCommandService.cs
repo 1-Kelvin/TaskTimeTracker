@@ -9,7 +9,7 @@ namespace TaskTimeTracker.Services.Commands
 {
     public interface ITodoCommandService
     {  
-        Task<ViewTodoDTO> SaveTodoData(TodoDTO todo);
+        Task<ViewTodoDTO> SaveTodoData(int id, TodoDTO todo);
         Task<ViewTodoDTO> CreateTodo(TodoDTO createTodoDTO);
         Task<bool> DeleteTodo(int id);
         Task<ViewTodoDTO> AssignTodoToUser(int userId, int todoId);

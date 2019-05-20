@@ -39,18 +39,21 @@ namespace TaskTimeTracker.Services.Commands
             User usr = _context.Users.FirstOrDefault(u => u.Email == user.Email);
             if (usr == null)
             {
-                _context.Users.Add(usr);
+                User createdUser = _mapper.Map<User>(user);
+                createdUser.Active = true;
+                createdUser.Created = DateTime.Now;
+                _context.Users.Add(createdUser);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<ViewUserDTO>(usr);
+                return _mapper.Map<ViewUserDTO>(createdUser);
             }
             else
                 return null;
         }
 
 
-        public async Task<bool> SaveUserData(UserDTO user)
+        public async Task<bool> SaveUserData(int id, UserDTO user)
         {
-            User usr = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+            User usr = _context.Users.FirstOrDefault(u => u.Id == id);
             if (usr != null)
             {
                 usr.Firstname = user.Firstname;
@@ -63,21 +66,6 @@ namespace TaskTimeTracker.Services.Commands
             }
             else
                 return false;
-        }
-
-        public async Task<IEnumerable<ViewTodoDTO>> ListAssignedTodos(int id)
-        {
-            User usr = await _context.Users
-                .Include(p => p.Todos)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            ICollection<ViewTodoDTO> result = new List<ViewTodoDTO>();
-
-            foreach (Todo todo in usr.Todos)
-            {
-                result.Add(_mapper.Map<ViewTodoDTO>(todo));
-            }
-            return result;
         }
     }
 }
