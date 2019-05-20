@@ -36,7 +36,7 @@ namespace TaskTimeTracker.Services.Queries
 
         public async Task<ViewProjectDTO> GetProject(int id)
         {
-            var proj = await _context.Users.FirstOrDefaultAsync(p => p.Id == id);
+            var proj = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
 
             if (proj == null)
                 return null;

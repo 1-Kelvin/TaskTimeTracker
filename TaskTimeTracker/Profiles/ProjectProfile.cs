@@ -13,6 +13,7 @@ namespace TaskTimeTracker.Profiles
         public ProjectProfile ()
         {
             CreateMap<Project, ProjectDTO>();
+            CreateMap<ProjectDTO, Project>();
             CreateMap<Project, ViewProjectDTO>();
         }
     }

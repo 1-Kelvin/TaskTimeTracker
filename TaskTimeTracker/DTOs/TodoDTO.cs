@@ -18,6 +18,5 @@ namespace TaskTimeTracker.DTOs
         public bool Finished { get; set; }
         public int? UserID { get; set; }
         public int? ProjectID { get; set; }
-        public int EstimatedHours { get; set; }
     }
 }

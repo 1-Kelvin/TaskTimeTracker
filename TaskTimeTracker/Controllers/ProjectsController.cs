@@ -36,9 +36,9 @@ namespace TaskTimeTracker.Controllers
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(int id)
+        public async Task<ActionResult<ViewProjectDTO>> GetProject(int id)
         {
-            var project = _queryService.GetProject(id);
+            var project = await _queryService.GetProject(id);
             if (project == null)
                 return BadRequest();
             return Ok(project);
