@@ -6,7 +6,7 @@ using TaskTimeTracker.DTOs;
 
 namespace TaskTimeTracker.Services.Queries
 {
-    interface IUserQueryService
+    public interface IUserQueryService
     {
         Task<IEnumerable<ViewUserDTO>> GetAll();
         Task<ViewUserDTO> GetUser(int id);

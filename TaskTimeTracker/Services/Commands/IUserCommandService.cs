@@ -7,7 +7,7 @@ using TaskTimeTracker.Entities;
 
 namespace TaskTimeTracker.Services.Commands
 {
-    interface IUserCommandService
+    public interface IUserCommandService
     {
         Task<ViewUserDTO> Authenticate(string username, string password);
         Task<ViewUserDTO> RegisterUser(UserDTO user);
