@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using TaskTimeTracker.DTOs;
 using TaskTimeTracker.Entities;
 using TaskTimeTracker.Services;
+using TaskTimeTracker.Services.Commands;
+using TaskTimeTracker.Services.Queries;
 
 namespace TaskTimeTracker.Controllers
 {
@@ -15,18 +17,20 @@ namespace TaskTimeTracker.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private IProjectService _service;
+        private IProjectCommandService _commandService;
+        private IProjectQueryService _queryService;
 
-        public ProjectsController(UserContext context, IProjectService service)
+        public ProjectsController(UserContext context, IProjectCommandService commandService, IProjectQueryService queryService)
         {
-            _service = service;
+            _commandService = commandService;
+            _queryService = queryService;
         }
 
         // GET: api/Projects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<ViewProjectDTO>>> GetProjects()
         {
-            var list = await _service.GetAll();
+            var list = await _queryService.GetAll();
             return Ok(list);
         }
 
@@ -34,7 +38,7 @@ namespace TaskTimeTracker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = _service.GetProject(id);
+            var project = _queryService.GetProject(id);
             if (project == null)
                 return BadRequest();
             return Ok(project);
@@ -42,9 +46,9 @@ namespace TaskTimeTracker.Controllers
 
         // PUT: api/Projects/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject(int id, Project project)
+        public async Task<IActionResult> PutProject(int id, ProjectDTO project)
         {
-            var proj = await _service.SaveProjectData(id, project);
+            var proj = await _commandService.SaveProjectData(id, project);
             if (proj == null)
                 return BadRequest();
             return Ok(proj);
@@ -54,7 +58,7 @@ namespace TaskTimeTracker.Controllers
         [HttpPost]
         public async Task<ActionResult<ViewProjectDTO>> PostProject(ProjectDTO projectDTO)
         {
-            ViewProjectDTO project = await _service.CreateProject(projectDTO);
+            ViewProjectDTO project = await _commandService.CreateProject(projectDTO);
             return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
@@ -62,7 +66,7 @@ namespace TaskTimeTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Project>> DeleteProject(int id)
         {
-            bool deleted = await _service.DeleteProject(id);
+            bool deleted = await _commandService.DeleteProject(id);
             if (!deleted)
             {
                 return NotFound();

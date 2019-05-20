@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication;
 using TaskTimeTracker.Helpers;
 using AutoMapper;
 using TaskTimeTracker.Services.Queries;
+using TaskTimeTracker.Services.Commands;
 
 namespace TaskTimeTracker
 {
@@ -41,7 +42,13 @@ namespace TaskTimeTracker
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<IProjectService, ProjectService>();
+
             services.AddScoped<ITodoQueryService, TodoQueryService>();
+            services.AddScoped<IUserQueryService, UserQueryService>();
+            services.AddScoped<IProjectQueryService, ProjectQueryService>();
+            services.AddScoped<ITodoCommandService, TodoCommandService>();
+            services.AddScoped<IUserCommandService, UserCommandService>();
+            services.AddScoped<IProjectCommandService, ProjectCommandService>();
             //TODO: add the other services!
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:tasktime"]));
