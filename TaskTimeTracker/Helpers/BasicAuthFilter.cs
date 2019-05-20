@@ -6,7 +6,7 @@ namespace TaskTimeTracker.Helpers
 {
     public class BasicAuthFilter : IOperationFilter
     {
-        private const string BASIC_AUTH = "Basic a0BzLmF0OnBhc3N3b3Jk";
+        private const string BASIC_AUTH = "Basic a0BzLmV1OnBhc3N3b3Jk";
 
         public void Apply(Operation operation, OperationFilterContext context)
         {

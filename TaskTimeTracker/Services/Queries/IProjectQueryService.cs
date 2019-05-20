@@ -6,7 +6,7 @@ using TaskTimeTracker.DTOs;
 
 namespace TaskTimeTracker.Services.Queries
 {
-    interface IProjectQueryService
+    public interface IProjectQueryService
     {
         Task<IEnumerable<ViewProjectDTO>> GetAll();
         Task<ViewProjectDTO> GetProject(int id);
