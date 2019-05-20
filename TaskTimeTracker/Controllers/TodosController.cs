@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskTimeTracker.DTOs;
 using TaskTimeTracker.Entities;
 using TaskTimeTracker.Services;
+using TaskTimeTracker.Services.Commands;
 using TaskTimeTracker.Services.Queries;
 
 namespace TaskTimeTracker.Controllers
@@ -17,13 +18,13 @@ namespace TaskTimeTracker.Controllers
     [ApiController]
     public class TodosController : ControllerBase
     {
-        private ITodoService _service;
-        private ITodoQueryService _todoQueryService;
+        private ITodoQueryService _queryService;
+        private ITodoCommandService _commandService;
 
-        public TodosController(ITodoService service, ITodoQueryService queryService)
+        public TodosController(ITodoQueryService queryService, ITodoCommandService commandService)
         {
-            _service = service;
-            _todoQueryService = queryService;
+            _queryService = queryService;
+            _commandService = commandService;
         }
 
      
@@ -31,7 +32,7 @@ namespace TaskTimeTracker.Controllers
         public async Task<IEnumerable<ViewTodoDTO>> GetToDos()
         {
             //return await _service.GetAll();
-            return await _todoQueryService.GetAll();
+            return await _queryService.GetAll();
         }
 
         // GET: api/Todos/5
@@ -39,7 +40,7 @@ namespace TaskTimeTracker.Controllers
         public async Task<ActionResult<Todo>> GetTodo(int id)
         {
             //var todo = await _context.ToDos.FindAsync(id);
-            var todo = await _service.GetTodo(id);
+            var todo = await _queryService.GetTodo(id);
 
             if (todo == null)
             {
@@ -50,14 +51,14 @@ namespace TaskTimeTracker.Controllers
 
         // PUT: api/Todoes/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodo(int id, Todo todo)
+        public async Task<IActionResult> PutTodo(int id, TodoDTO todo)
         {
             if (id != todo.Id)
             {
                 return BadRequest();
             }
 
-            Todo td = await _service.SaveTodoData(todo);
+            var td = await _commandService.SaveTodoData(todo);
 
             if (td != null)
             {
@@ -69,9 +70,9 @@ namespace TaskTimeTracker.Controllers
 
         // POST: api/Todos
         [HttpPost]
-        public async Task<ActionResult<Todo>> PostTodo(TodoDTO createTodoDTO)
+        public async Task<ActionResult<Todo>> PostTodo(TodoDTO todoDTO)
         {
-            Todo todo = await _service.CreateTodo(createTodoDTO);
+            var todo = await _commandService.CreateTodo(todoDTO);
             return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);
         }
 
@@ -79,7 +80,7 @@ namespace TaskTimeTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTodo(int id)
         {
-            bool deleted = await _service.DeleteTodo(id);
+            bool deleted = await _commandService.DeleteTodo(id);
             if (deleted)
             {
                 return NoContent();
