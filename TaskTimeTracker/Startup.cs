@@ -34,11 +34,10 @@ namespace TaskTimeTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO
-            // services.AddAuthentication("BasicAuthentication").
-            //AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddCors();
             services.AddAutoMapper();
+
+            // old services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<IProjectService, ProjectService>();
@@ -49,7 +48,7 @@ namespace TaskTimeTracker
             services.AddScoped<ITodoCommandService, TodoCommandService>();
             services.AddScoped<IUserCommandService, UserCommandService>();
             services.AddScoped<IProjectCommandService, ProjectCommandService>();
-            //TODO: add the other services!
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:tasktime"]));
             services.AddSwaggerGen(context =>

@@ -80,9 +80,10 @@ namespace TaskTimeTracker.Services.Commands
             var projusr = _context.ProjectUsers.FirstOrDefault(pu => pu.ProjectId == projId && pu.UserId == userId);
             if (projusr != null)
                 return false;
+
             ProjectUser projectUser = new ProjectUser();
-            projusr.ProjectId = projId;
-            projusr.UserId = userId;
+            projectUser.ProjectId = projId;
+            projectUser.UserId = userId;
             _context.ProjectUsers.Add(projectUser);
             await _context.SaveChangesAsync();
             return true;

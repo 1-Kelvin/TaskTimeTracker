@@ -1,4 +1,7 @@
 using System;
+using TaskTimeTracker.Controllers;
+using TaskTimeTracker.Services.Commands;
+using TaskTimeTracker.Services.Queries;
 using Xunit;
 
 namespace TimeTrackerTestRange
@@ -8,7 +11,7 @@ namespace TimeTrackerTestRange
         [Fact]
         public void Test1()
         {
-
+            ProjectQueryService queryService;
         }
     }
 }
